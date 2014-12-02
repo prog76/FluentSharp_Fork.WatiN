@@ -33,10 +33,12 @@ namespace WatiN.Core.Native.Windows
         public const int WM_CLOSE = 0x0010;
         public const UInt32 WM_CHAR = 0x0102;
         public const int SC_CLOSE = 0xF060;
+		public const UInt32 WM_CHAR = 0x0102;
 
         public const int KEYEVENTF_EXTENDEDKEY = 0x1;
         public const int KEYEVENTF_KEYUP = 0x2;
         public const int KEYEVENTF_TAB = 0x09;
+		public const int VK_ENTER = 0x0D;
 
         public const Int32 SMTO_ABORTIFHUNG = 2;
         public const int BM_CLICK = 245;
@@ -188,6 +190,10 @@ namespace WatiN.Core.Native.Windows
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr SendMessage(HandleRef hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+		[DllImport("user32.Dll")]
+		public static extern int PostMessage(IntPtr hWnd, int msg, int wParam, int lParam);
+
 
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]

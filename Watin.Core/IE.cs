@@ -527,10 +527,10 @@ namespace WatiN.Core
             var ie = action.Try(() =>
             {
                 m_Proc.Refresh();
-                var mainWindowHandle = m_Proc.MainWindowHandle;
+                var processId = m_Proc.Id;
 
-                return mainWindowHandle != IntPtr.Zero
-                    ? helper.FindIEPartiallyInitialized(new AttributeConstraint("hwnd", mainWindowHandle.ToString()))
+					 return processId != 0
+						  ? helper.FindIEPartiallyInitialized(new AttributeConstraint("process", processId.ToString()))
                     : null;
             });
 

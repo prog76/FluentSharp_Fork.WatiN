@@ -43,6 +43,7 @@ namespace WatiN.Core.DialogHandlers
 		public bool _closeUnhandledDialogs = Settings.AutoCloseDialogs;
 
         public Window MainWindow { get; set; }
+		public Window TopWindow { get; set; }
 
 
 	    /// <summary>
@@ -125,6 +126,14 @@ namespace WatiN.Core.DialogHandlers
 			_watcherThread = new Thread(Start);
 			// Start the thread.
 			_watcherThread.Start();
+		}
+
+		public int threadId
+		{
+			get
+			{
+				return _watcherThread.ManagedThreadId;
+			}
 		}
 
 		/// <summary>
@@ -348,6 +357,9 @@ namespace WatiN.Core.DialogHandlers
 		{
 			if (!window.IsDialog()) return;
 	        if (!HasDialogSameProcessNameAsBrowserWindow(window)) return;
+			if (!window.Visible) return;
+			int topProcessID=window.ToplevelWindow.ProcessID;
+			if ((TopWindow.ProcessID != topProcessID) && (MainWindow.ProcessID != topProcessID)) return;
 			
             // This is needed otherwise the window Style will return a "wrong" result.
             WaitUntilVisibleOrTimeOut(window);
@@ -375,7 +387,7 @@ namespace WatiN.Core.DialogHandlers
 
 		        // If no handler handled the dialog, see if the dialog
 		        // should be closed automatically.
-		        if (!CloseUnhandledDialogs || !MainWindow.Equals(window.ToplevelWindow)) return;
+		        if (!CloseUnhandledDialogs) return;
 		        
 		        Logger.LogAction((LogFunction log) => { log("Auto closing dialog with title: '{0}', text: {1}, style: ", window.Title, window.Message, window.StyleInHex); });
 		        window.ForceClose();
@@ -384,8 +396,7 @@ namespace WatiN.Core.DialogHandlers
 
 	    public bool HasDialogSameProcessNameAsBrowserWindow(Window window)
 	    {
-            var comparer = new Comparers.StringComparer(window.ProcessName, true);
-	        return comparer.Compare(MainWindow.ProcessName);
+			 return window.ProcessID == MainWindow.ProcessID;
 	    }
 
 	    public static void WaitUntilVisibleOrTimeOut(Window window)

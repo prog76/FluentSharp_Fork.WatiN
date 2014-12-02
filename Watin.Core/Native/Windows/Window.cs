@@ -80,7 +80,8 @@ namespace WatiN.Core.Native.Windows
 
         public virtual void ForceClose()
         {
-            NativeMethods.SendMessage(Hwnd, NativeMethods.WM_CLOSE, 0, 0);
+			NativeMethods.PostMessage(Hwnd, NativeMethods.WM_KEYDOWN, NativeMethods.VK_ENTER, 0);
+            NativeMethods.PostMessage(Hwnd, NativeMethods.WM_CLOSE, 0, 0);
         }
 
         public virtual bool Exists()

@@ -366,6 +366,12 @@ namespace WatiN.Core
             {
                 UtilityClass.TryActionIgnoreException(() => value = hWnd.ToString());
             }
+				else if (name.Equals("process"))
+				{
+					int ProcessId;
+					NativeMethods.GetWindowThreadProcessId(hWnd, out ProcessId);
+					UtilityClass.TryActionIgnoreException(() => value = ProcessId.ToString());
+				}
             else
             {
                 throw new InvalidAttributeException(attributeName, "IE");
