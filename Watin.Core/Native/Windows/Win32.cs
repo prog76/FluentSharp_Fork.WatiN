@@ -33,7 +33,7 @@ namespace WatiN.Core.Native.Windows
         public const int WM_CLOSE = 0x0010;
         public const UInt32 WM_CHAR = 0x0102;
         public const int SC_CLOSE = 0xF060;
-		public const UInt32 WM_CHAR = 0x0102;
+        public const int WM_KEYDOWN = 0x0100;
 
         public const int KEYEVENTF_EXTENDEDKEY = 0x1;
         public const int KEYEVENTF_KEYUP = 0x2;
